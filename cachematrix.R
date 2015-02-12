@@ -8,13 +8,17 @@
 
 # This function returns the list of functions we can use to interact with the matrix.
 makeCacheMatrix <- function(x = matrix()) {
+    # Set the inverse to NULL to begin with
     inverse <- NULL
     
+    # Setter and getter for the matrix itself
     set <- function(y) {
         x <<- y
         inverse <<- NULL
     }
     get <- function() x
+    
+    # Setter and getter for the inverse of the matrix
     setinverse <- function(inv) inverse <<- inv
     getinverse <- function() inverse
     
@@ -27,11 +31,15 @@ makeCacheMatrix <- function(x = matrix()) {
 # Try to get the cached inverse of the matrix from the list passed in.
 # If it isn't there, find it and cache it for next time. Notify when the cache is used so we can see it's working.
 cacheSolve <- function(x, ...) {
+	# Get inverse from the list
     inverse <- x$getinverse()
     if (!is.null(inverse)) {
+    	# If it's there, return the cached version.
         message("Getting cached data")
         return(inverse)
     }
+    
+    # If the inverse isn't in place, go get it.
     data <- x$get()
     inverse <- solve(data, ...)
     x$setinverse(inverse)
